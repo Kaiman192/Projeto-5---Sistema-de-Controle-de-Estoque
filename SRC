@@ -1,0 +1,79 @@
+CREATE DATABASE: Para criar o banco de dados do sistema.
+CREATE TABLE: Para criar as tabelas que armazenarão as informações de produtos, fornecedores e pedidos.
+INSERT: Para inserir dados nas tabelas.
+SELECT: Para consultar e visualizar os dados armazenados.
+UPDATE: Para atualizar os dados das tabelas, como ajustar a quantidade de produtos em estoque.
+DELETE: Para remover registros desnecessários do banco de dados.
+JOIN: Para combinar dados de múltiplas tabelas e realizar consultas mais complexas.
+-- Cria o banco de dados "SistemaControleEstoque"
+CREATE DATABASE SistemaControleEstoque;
+
+-- Seleciona o banco de dados "SistemaControleEstoque" para uso
+USE SistemaControleEstoque;
+-- Cria a tabela "Fornecedores" para armazenar informações dos fornecedores
+CREATE TABLE Fornecedores (
+    id_fornecedor INT AUTO_INCREMENT PRIMARY KEY,
+    nome_fornecedor VARCHAR(100) NOT NULL,
+    contato VARCHAR(100),
+    telefone VARCHAR(20)
+);
+-- Cria a tabela "Produtos" para armazenar informações dos produtos
+CREATE TABLE Produtos (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome_produto VARCHAR(100) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    quantidade_estoque INT NOT NULL,
+    id_fornecedor INT,
+    FOREIGN KEY (id_fornecedor) REFERENCES Fornecedores(id_fornecedor)
+);
+-- Cria a tabela "PedidosReposicao" para armazenar informações dos pedidos de reposição
+CREATE TABLE PedidosReposicao (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_produto INT,
+    quantidade_pedida INT NOT NULL,
+    data_pedido DATE NOT NULL,
+    data_recebimento DATE,
+    FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto)
+);
+-- Insere dados na tabela "Fornecedores"
+INSERT INTO Fornecedores (nome_fornecedor, contato, telefone) VALUES 
+('Fornecedor A', 'contatoA@fornecedor.com', '1234-5678'),
+('Fornecedor B', 'contatoB@fornecedor.com', '8765-4321'),
+('Fornecedor C', 'contatoC@fornecedor.com', '2345-6789');
+-- Insere dados na tabela "Produtos"
+INSERT INTO Produtos (nome_produto, preco, quantidade_estoque, id_fornecedor) VALUES 
+('Produto X', 50.00, 100, 1),
+('Produto Y', 30.00, 200, 2),
+('Produto Z', 20.00, 150, 3);
+-- Insere dados na tabela "PedidosReposicao"
+INSERT INTO PedidosReposicao (id_produto, quantidade_pedida, data_pedido, data_recebimento) VALUES 
+(1, 50, '2024-09-01', '2024-09-05'),
+(2, 100, '2024-09-02', '2024-09-06'),
+(3, 75, '2024-09-03', NULL);  -- Pedido ainda não recebido
+-- Exibe todos os produtos em estoque
+SELECT * FROM Produtos;
+-- Exibe todos os pedidos de reposição feitos
+SELECT PedidosReposicao.*, Produtos.nome_produto 
+FROM PedidosReposicao
+JOIN Produtos ON PedidosReposicao.id_produto = Produtos.id_produto;
+-- Exibe informações sobre os fornecedores
+SELECT * FROM Fornecedores;
+-- Atualiza o estoque de um produto após o recebimento de um pedido de reposição (exemplo: Pedido com id_pedido = 1)
+UPDATE Produtos
+SET quantidade_estoque = quantidade_estoque + (SELECT quantidade_pedida FROM PedidosReposicao WHERE id_pedido = 1)
+WHERE id_produto = (SELECT id_produto FROM PedidosReposicao WHERE id_pedido = 1);
+
+-- Atualiza a data de recebimento do pedido
+UPDATE PedidosReposicao
+SET data_recebimento = CURDATE()
+WHERE id_pedido = 1;
+-- Atualiza as informações de contato de um fornecedor específico (exemplo: Fornecedor com id_fornecedor = 1)
+UPDATE Fornecedores
+SET contato = 'novo_contato@fornecedor.com', telefone = '9999-9999'
+WHERE id_fornecedor = 1;
+-- Remove um produto descontinuado (exemplo: Produto com id_produto = 3)
+DELETE FROM Produtos
+WHERE id_produto = 3;
+-- Remove um fornecedor que não faz mais parte da empresa (exemplo: Fornecedor com id_fornecedor = 2)
+DELETE FROM Fornecedores
+WHERE id_fornecedor = 2;
