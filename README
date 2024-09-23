@@ -1,0 +1,43 @@
+# Sistema de Controle de Estoque
+
+Este projeto consiste em um sistema básico de controle de estoque desenvolvido utilizando SQL. O sistema permite o gerenciamento de produtos, fornecedores e pedidos de reposição, incluindo operações de CRUD (Criar, Ler, Atualizar e Deletar) em cada uma das tabelas.
+
+## Estrutura do Sistema
+
+O sistema possui três tabelas principais:
+- **Fornecedores**: Armazena informações sobre os fornecedores dos produtos.
+- **Produtos**: Contém os dados dos produtos em estoque.
+- **PedidosReposicao**: Registra os pedidos de reposição de estoque.
+
+## Funcionalidades
+
+- **Fornecedores**: Criar, visualizar, atualizar e remover fornecedores.
+- **Produtos**: Criar, visualizar, atualizar e remover produtos do estoque.
+- **Pedidos de Reposição**: Registrar pedidos de reposição e acompanhar suas datas de recebimento.
+
+### Operações Principais
+
+1. Criar o banco de dados e as tabelas.
+2. Inserir dados de fornecedores, produtos e pedidos de reposição.
+3. Consultar produtos em estoque e pedidos de reposição.
+4. Atualizar estoque após o recebimento de um pedido.
+5. Remover produtos descontinuados ou fornecedores inativos.
+
+### Requisitos
+
+- **MySQL** ou outro banco de dados SQL.
+- Cliente SQL como **MySQL Workbench**, **DBeaver**, ou execução diretamente via linha de comando.
+
+### Como Executar
+
+1. Clone o repositório ou copie o código SQL.
+2. Execute o script no seu ambiente de banco de dados SQL.
+3. Adapte as queries para o seu sistema, se necessário.
+
+### Licença
+
+Este projeto está licenciado sob a licença MIT. Para mais informações, veja o arquivo [LICENSE](./LICENSE).
+
+### Autor
+
+Desenvolvido por [Seu Nome].
